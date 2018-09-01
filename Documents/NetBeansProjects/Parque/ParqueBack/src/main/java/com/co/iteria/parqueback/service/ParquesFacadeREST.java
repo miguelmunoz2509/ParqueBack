@@ -31,7 +31,7 @@ import javax.ws.rs.core.MediaType;
  * @author Usuario
  */
 @Stateless
-@Path("parques")
+@Path("/parks")
 public class ParquesFacadeREST extends AbstractFacade<Parques> {
 
     Parques pq = new Parques();
@@ -48,11 +48,13 @@ public class ParquesFacadeREST extends AbstractFacade<Parques> {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Parques create(Parques entity) {
+        entity.setStatus("Open");
+        int siguiente = UltimoConsecutivo()+1;
         
-       
+        entity.setId(String.valueOf(siguiente));
+               
         super.create(entity);
-        //response.setStatus();  
-       
+ 
         return entity;
     }
 
@@ -122,6 +124,10 @@ public class ParquesFacadeREST extends AbstractFacade<Parques> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+    
+    public int UltimoConsecutivo() {
+        return Integer.parseInt(getEntityManager().createQuery("select COALESCE(max(p.id),0) from Parques p").getSingleResult().toString());
     }
     
 }

@@ -36,8 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Parques implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-   // @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @Id  
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 3)
